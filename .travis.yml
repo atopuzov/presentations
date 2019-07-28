@@ -1,2 +1,10 @@
 language: nix
 nix: 2.2.2
+deploy:
+  local_dir: result
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
