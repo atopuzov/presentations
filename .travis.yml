@@ -6,7 +6,7 @@ cache:
     - /nix/store
 
 before_deploy:
-  - rsync -avvL --inplace --no-whole-file result pages
+  - rsync -avvL --inplace --no-whole-file result/ pages
 
 deploy:
   local_dir: pages
