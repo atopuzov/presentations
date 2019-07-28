@@ -1,7 +1,12 @@
 language: nix
 nix: 2.2.2
+
+cache:
+  directories:
+    - /nix/store
+
 deploy:
-  local_dir: result
+  local_dir: result/
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
