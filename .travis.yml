@@ -5,8 +5,11 @@ cache:
   directories:
     - /nix/store
 
+before_deploy:
+  - rsync -avvL --inplace --no-whole-file result pages
+
 deploy:
-  local_dir: result
+  local_dir: pages
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
