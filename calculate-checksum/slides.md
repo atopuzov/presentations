@@ -19,8 +19,11 @@ Given the following spreadsheet:
 ```
 
 First row: 9 - 1 = 8
+
 Second row: 7 - 3 = 4
+
 Third row: 8 - 2 = 6
+
 Checksum = 8 + 4 + 6 = 18
 
 ------------
@@ -62,8 +65,11 @@ cksum xs = sum $ map rowCksum xs
 
 In mathematics, a semigroup is an algebraic structure consisting of a set together with an associative binary operation.
 
+Laws
 
-[1](https://en.wikipedia.org/wiki/Semigroup)
+(A &#2295 B) &#2295 C = A &#2295 (B &#2295 C)
+
+[Semigroup](https://en.wikipedia.org/wiki/Semigroup)
 
 ------------
 
@@ -72,12 +78,13 @@ class Semigroup a where
   (<>) :: a -> a -> a
 ```
 
-[1](https://hackage.haskell.org/package/base/docs/Data-Semigroup.html)
+Laws
+```haskell
+x <> (y <> z) = (x <> y) <> z
+```
 
+[Data.Semigroup](https://hackage.haskell.org/package/base/docs/Data-Semigroup.html)
 
-::: notes
-Laws etc.
-:::
 
 ------------
 
@@ -85,7 +92,13 @@ Laws etc.
 
 It is a semigroup with an identity element
 
-[1](https://en.wikipedia.org/wiki/Monoid)
+Laws
+
+A &#2295 E = E &#2295 A = A
+
+(A &#2295 B) &#2295 C = A &#2295 (B &#2295 C)
+
+[Monoid](https://en.wikipedia.org/wiki/Monoid)
 
 ------------
 
@@ -96,13 +109,24 @@ class Semigroup a => Monoid a where
   mappend = (<>)
 ```
 
-[1](https://hackage.haskell.org/package/base/docs/Data-Semigroup.html)
+Laws
+```haskell
+x <> mempty = x
+mempty <> x = x
+x <> (y <> z) = (x <> y) <> z
+```
+
+[Data.Monoid](https://hackage.haskell.org/package/base/docs/Data-Monoid.html)
 
 ------------
 
+ Num monoids
  * Min
  * Max
  * Sum
+ * Product
+
+ Bool monoids
  * All
  * Any
 
@@ -174,6 +198,10 @@ rowCksum xs = fmap Sum $ calcDiff res'
     res' = bimap (fmap getMin) (fmap getMax) res
     res = foldMap mkMinMax xs
 ```
+
+------------
+
+[Algebra cheatsheet](https://argumatronic.com/posts/2019-06-21-algebra-cheatsheet.html)
 
 ------------
 
