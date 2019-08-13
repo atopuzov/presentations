@@ -11,6 +11,20 @@ difference between the largest and the smallest number.
 
 ------------
 
+Given the following spreadsheet:
+```
+5 1 9 5
+7 5 3
+2 4 6 8
+```
+
+First row: 9 - 1 = 8
+Second row: 7 - 3 = 4
+Third row: 8 - 2 = 6
+Checksum = 8 + 4 + 6 = 18
+
+------------
+
 ### A simple solution
 
 ```haskell
