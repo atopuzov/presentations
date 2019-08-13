@@ -11,18 +11,29 @@ difference between the largest and the smallest number.
 
 ------------
 
-Given the following spreadsheet:
+#### Given the following spreadsheet
+
 ```
 5 1 9 5
 7 5 3
 2 4 6 8
 ```
 
+We calculate the checksum
+
+. . .
+
 First row: 9 - 1 = 8
+
+. . .
 
 Second row: 7 - 3 = 4
 
+. . .
+
 Third row: 8 - 2 = 6
+
+. . .
 
 Checksum = 8 + 4 + 6 = 18
 
@@ -38,12 +49,29 @@ rowCksum xs = rmax - rmin
     rmax = maximum xs
 
 cksum :: (Num a, Ord a) => [[a]] -> a
-cksum xs = sum $ map rowCksum xs
+cksum = sum . map rowCksum
 ```
 
 ------------
 
+#### Drawbacks
+
+* We iterate twice trough the row
+  * Once to find minimum
+  * and once to find maximum
+
+* No error handling
+  * Does not handle empty rows
+  * or empty spreadsheets
+
+------------
+
 ### A better solution
+
+We implement our own min max finder using a fold
+
+. . .
+
 ```haskell
 findMinMax (x:xs) = foldr helper (x, x) xs
   where
@@ -52,11 +80,13 @@ findMinMax (x:xs) = foldr helper (x, x) xs
           nmax = if x > cmax then x else cmax in
         (nmin, nmax)
 
+rowCksum :: (Num a, Ord a) => [a] -> a
 rowCksum xs = rmax - rmin
   where
     (rmin, rmax) = findMinMax xs
 
-cksum xs = sum $ map rowCksum xs
+cksum :: (Num a, Ord a) => [[a]] -> a
+cksum = sum . map rowCksum
 ```
 
 ------------
@@ -72,6 +102,8 @@ Laws
 [Semigroup](https://en.wikipedia.org/wiki/Semigroup)
 
 ------------
+
+## Semigroup in Haskell
 
 ```haskell
 class Semigroup a where
@@ -102,6 +134,8 @@ A ⊕ E = E ⊕ A = A
 
 ------------
 
+## Monoid in Haskell
+
 ```haskell
 class Semigroup a => Monoid a where
   mempty :: a
@@ -120,19 +154,25 @@ x <> (y <> z) = (x <> y) <> z
 
 ------------
 
- Num monoids
+### Some of the monoids available in base
+
+Num monoids
 
  * Min
  * Max
  * Sum
  * Product
 
- Bool monoids
+Bool monoids
 
  * All
  * Any
 
 ------------
+
+### Let's build our own semigroup
+
+. . .
 
 ```haskell
 data MinMax a = MinMax {
