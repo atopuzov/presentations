@@ -67,7 +67,7 @@ In mathematics, a semigroup is an algebraic structure consisting of a set togeth
 
 Laws
 
-(A &#2295 B) &#2295 C = A &#2295 (B &#2295 C)
+(A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
 
 [Semigroup](https://en.wikipedia.org/wiki/Semigroup)
 
@@ -94,9 +94,9 @@ It is a semigroup with an identity element
 
 Laws
 
-A &#2295 E = E &#2295 A = A
+A ⊕ E = E ⊕ A = A
 
-(A &#2295 B) &#2295 C = A &#2295 (B &#2295 C)
+(A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
 
 [Monoid](https://en.wikipedia.org/wiki/Monoid)
 
@@ -121,12 +121,14 @@ x <> (y <> z) = (x <> y) <> z
 ------------
 
  Num monoids
+
  * Min
  * Max
  * Sum
  * Product
 
  Bool monoids
+
  * All
  * Any
 
