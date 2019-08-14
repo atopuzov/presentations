@@ -17,6 +17,7 @@ in
     buildInputs = [ pkgs.pandoc revealjs mkRevealJs mkSlides ];
     shellHook = ''
       export LANG=en_US.UTF-8
+      eval "$( ${pkgs.pandoc}/bin/pandoc --bash-completion )"
       echo "Welcome!"
     '';
   }
