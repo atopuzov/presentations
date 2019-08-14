@@ -99,7 +99,7 @@ Laws
 
 (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
 
-[Semigroup](https://en.wikipedia.org/wiki/Semigroup)
+<https://en.wikipedia.org/wiki/Semigroup>
 
 ------------
 
@@ -115,7 +115,7 @@ Laws
 x <> (y <> z) = (x <> y) <> z
 ```
 
-[Data.Semigroup](https://hackage.haskell.org/package/base/docs/Data-Semigroup.html)
+<https://hackage.haskell.org/package/base/docs/Data-Semigroup.html>
 
 
 ------------
@@ -130,7 +130,7 @@ A ⊕ E = E ⊕ A = A
 
 (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
 
-[Monoid](https://en.wikipedia.org/wiki/Monoid)
+<https://en.wikipedia.org/wiki/Monoid>
 
 ------------
 
@@ -150,7 +150,7 @@ mempty <> x = x
 x <> (y <> z) = (x <> y) <> z
 ```
 
-[Data.Monoid](https://hackage.haskell.org/package/base/docs/Data-Monoid.html)
+<https://hackage.haskell.org/package/base/docs/Data-Monoid.html>
 
 ------------
 
