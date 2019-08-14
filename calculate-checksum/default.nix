@@ -5,12 +5,12 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildPhase = ''
-    pandoc -t revealjs --highlight-style=tango -s -o ${name}.html slides.md
+    pandoc -t revealjs --highlight-style=tango -s -o index.html slides.md
   '';
 
   installPhase = ''
     mkdir -p $out
-    cp ${name}.html $out
+    cp index.html $out
     cp -r images/ $out
     cp -r ${revealjs}/reveal.js/ $out
   '';

@@ -3,12 +3,9 @@
 let
   pkgs = import nixpkgs {};
   revealjs = pkgs.callPackage ./nix/revealjs.nix {};
-in pkgs.buildEnv {
-  name = "presentations";
+in pkgs.linkFarm "presentations" [
+  {
+    name = "calculate-checksum";
+    path = pkgs.callPackage ./calculate-checksum/default.nix { inherit revealjs;  };
+  }]
 
-  paths = let
-    calculate-checksum = pkgs.callPackage
-      ./calculate-checksum/default.nix { inherit revealjs;  };
-  in
-    [ calculate-checksum ];
-}
