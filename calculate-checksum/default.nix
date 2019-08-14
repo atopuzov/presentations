@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildPhase = ''
-    pandoc -t revealjs -s -o ${name}.html slides.md
+    pandoc -t revealjs --highlight-style=zenburn -s -o ${name}.html slides.md
   '';
 
   installPhase = ''
