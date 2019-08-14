@@ -1,9 +1,16 @@
 language: nix
 nix: 2.2.2
 
+env:
+  - LC_ALL=en_US.UTF-8
+
+notifications:
+  email: false
+
 cache:
   directories:
     - $HOME/nix.store
+    - /nix/store
 
 before_install:
   - sudo mkdir -p /etc/nix
@@ -12,7 +19,7 @@ before_install:
 
 before_cache:
   - mkdir -p $HOME/nix.store
-  - nix copy --to file://$HOME/nix.store -f default.nix buildInputs
+  - nix copy --to file://$HOME/nix.store -f default.nix
 
 before_deploy:
   - rsync -avvL --inplace --no-whole-file result/ pages
