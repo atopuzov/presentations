@@ -2,15 +2,31 @@
 }:
 let
   pkgs = import nixpkgs {};
+  lib = pkgs.lib;
   revealjs = pkgs.callPackage ./nix/revealjs.nix {};
   presentations = map(dir: {
     name = dir;
     path = pkgs.callPackage (./. + "/${dir}") { inherit revealjs; };
   });
+  dirs = [ "calculate-checksum" ];
+  indexHtml = pkgs.writeTextFile {
+    name = "index.html";
+    text = ''
+      <!doctype html>
+      <html lang=en>
+        <head>
+        <meta charset=utf-8>
+        <title>Presentations</title>
+        </head>
+        <body>
+          ${lib.concatMapStringsSep "\n" (dir: "<li><a href='${dir}'>${dir}</a></li>") dirs}
+        </body>
+     </html>
+    '';
+  };
 in
   pkgs.linkFarm "presentations" ([
   {
     name = "index.html";
-    path = ./index.html;
-  }] ++ presentations [ "calculate-checksum" ])
-
+    path = indexHtml;
+  }] ++ presentations dirs)
