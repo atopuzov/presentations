@@ -90,7 +90,7 @@ cksum = sum . map rowCksum
 ```
 ------------
 
-## But can we do better??
+## But can we do better?
 
 ------------
 
@@ -238,12 +238,27 @@ rowCksum xs = fmap (Sum . calcDiff) res
 
 ------------
 
-#### And the entire spreadsheet
+#### And for the entire spreadsheet
 
 ```haskell
 cksum :: (Num a, Ord a) => [[a]] -> Maybe a
 cksum xs = fmap getSum $ foldMap (rowCksum) xs
 ```
+
+------------
+
+## Results
+
+We iterate trough the row only once and combine the elements of the row by using the custom monoid.
+
+For the row checksum we use the Sum monoid which we combine with other rows to obtain the spreadsheet checksum.
+
+. . .
+
+We wrap our semigroup in a Maybe to obtain a monoid.
+
+It makes the handling of empty rows/spreadsheets trivial.
+
 
 ------------
 
