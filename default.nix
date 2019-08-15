@@ -24,25 +24,9 @@ let
      </html>
     '';
   };
-  cname = pkgs.writeTextFile {
-    name = "cname";
-    text = "talks.topuzovic.net";
-  };
-  nojekill = pkgs.writeTextFile {
-    name = "nojekyll";
-    text = "";
-  };
 in
   pkgs.linkFarm "presentations" ([
-  {
-    name = ".nojekyll";
-    path = nojekill;
-  }
-  {
-    name = "CNAME";
-    path = cname;
-  }
-  {
-    name = "index.html";
-    path = indexHtml;
-  }] ++ presentations dirs)
+  { name = ".nojekyll";  path = pkgs.writeTextFile { name = "nojekyll"; text = ""; }; }
+  { name = "CNAME";      path = pkgs.writeTextFile { name = "cname";    text = "talks.topuzovic.net"; }; }
+  { name = "index.html"; path = indexHtml;}
+  ] ++ presentations dirs)
