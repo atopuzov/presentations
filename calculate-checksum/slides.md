@@ -88,10 +88,9 @@ rowCksum xs = rmax - rmin
 cksum :: (Num a, Ord a) => [[a]] -> a
 cksum = sum . map rowCksum
 ```
-
 ------------
 
-# But can we do better??
+## But can we do better??
 
 ------------
 
@@ -103,25 +102,26 @@ Laws
 
 (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
 
-<https://en.wikipedia.org/wiki/Semigroup>
+<small><https://en.wikipedia.org/wiki/Semigroup></small>
 
 ------------
 
 ## Semigroup in Haskell
 
-### Implemented as a typeclass
+Implemented as a typeclass
 
 ```haskell
 class Semigroup a where
   (<>) :: a -> a -> a
 ```
 
-#### Laws
+Laws
+
 ```haskell
 x <> (y <> z) = (x <> y) <> z
 ```
 
-<https://hackage.haskell.org/package/base/docs/Data-Semigroup.html>
+<small><https://hackage.haskell.org/package/base/docs/Data-Semigroup.html></small>
 
 
 ------------
@@ -136,7 +136,7 @@ A ⊕ E = E ⊕ A = A
 
 (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
 
-<https://en.wikipedia.org/wiki/Monoid>
+<small><https://en.wikipedia.org/wiki/Monoid></small>
 
 ------------
 
@@ -150,13 +150,14 @@ class Semigroup a => Monoid a where
 ```
 
 Laws
+
 ```haskell
 x <> mempty = x
 mempty <> x = x
 x <> (y <> z) = (x <> y) <> z
 ```
 
-<https://hackage.haskell.org/package/base/docs/Data-Monoid.html>
+<small><https://hackage.haskell.org/package/base/docs/Data-Monoid.html></small>
 
 ------------
 
@@ -185,7 +186,10 @@ newtype Min a = Min { getMin :: a }
 newtype Max a = Max { getMax :: a }
 newtype Sum a = Sum { getSum :: a }
 ```
+
 . . .
+
+We define our data type
 
 ```haskell
 data MinMax a = MinMax {
@@ -194,18 +198,18 @@ data MinMax a = MinMax {
   } deriving Show
 
 ```
-. . .
+------------
 
 #### We define how we smash the elements together
 
 ```haskell
 instance Ord a => Semigroup (MinMax a) where
   a <> b = MinMax (myMin a <> myMin b) (myMax a <> myMax b)
-
 ```
+
 . . .
 
-#### And a function that lifts normal types into out special type
+#### And a function that lifts normal types into our special type
 
 ```haskell
 mkMinMax :: (Num a, Ord a) => a -> MinMax a
@@ -220,9 +224,10 @@ mkMinMax x = MinMax (Min x) (Max x)
 calcDiff :: Num a => MinMax a -> a
 calcDiff x = (getMax . myMax $ x) - (getMin . myMin $ x)
 ```
+
 . . .
 
-#### For each row
+#### And checksum for each row
 
 ```haskell
 rowCksum :: (Num a, Ord a) => [a] -> Maybe (Sum a)
@@ -230,9 +235,11 @@ rowCksum xs = fmap (Sum . calcDiff) res
   where
     res = foldMap (Just . mkMinMax) xs
 ```
-. . .
+
+------------
 
 #### And the entire spreadsheet
+
 ```haskell
 cksum :: (Num a, Ord a) => [[a]] -> Maybe a
 cksum xs = fmap getSum $ foldMap (rowCksum) xs
@@ -241,17 +248,21 @@ cksum xs = fmap getSum $ foldMap (rowCksum) xs
 ------------
 
 ## But can we do better?
-. . .
 
-#### We can reuse the `Semigrup` instance for pair `(,)`
+
+------------
+
+### We can reuse the Semigrup instance for pair (,)
 
 #### We need a new lift function
+
 ```haskell
 mkMinMax :: a -> (Maybe (Min a), Maybe (Max a))
 mkMinMax x = (Just $ Min x, Just $ Max x)
 ```
 
 ------------
+
 #### Checksum calculation remains similar
 
 ```haskell
@@ -263,6 +274,9 @@ rowCksum xs = fmap Sum $ calcDiff res'
   where
     res' = bimap (fmap getMin) (fmap getMax) res
     res = foldMap mkMinMax xs
+
+cksum :: (Num a, Ord a) => [[a]] -> Maybe a
+cksum xs = fmap getSum $ foldMap (rowCksum) xs
 ```
 
 ------------
@@ -273,7 +287,11 @@ rowCksum xs = fmap Sum $ calcDiff res'
 
 ------------
 
-## Thank you
+## Questions?
+
+------------
+
+## Thank you!
 
 github.com/atopuzov
 
