@@ -1,8 +1,8 @@
-{ nixpkgs ? (import ./nix/nixpkgs.nix)
+{ nixpkgs ? (import ./.nix/nixpkgs.nix)
 }:
 let
   pkgs = import nixpkgs {};
-  revealjs = pkgs.callPackage ./nix/revealjs.nix {};
+  revealjs = pkgs.callPackage ./.nix/revealjs.nix {};
 
   mkRevealJs = pkgs.writeShellScriptBin "mkrevealjs" ''
     ${pkgs.pandoc}/bin/pandoc -t revealjs -V revealjs-url=${revealjs}/reveal.js $*

@@ -1,9 +1,9 @@
-{ nixpkgs ? (import ./nix/nixpkgs.nix)
+{ nixpkgs ? (import ./.nix/nixpkgs.nix)
 }:
 let
   pkgs = import nixpkgs {};
   lib = pkgs.lib;
-  revealjs = pkgs.callPackage ./nix/revealjs.nix {};
+  revealjs = pkgs.callPackage ./.nix/revealjs.nix {};
   presentations = map(dir: {
     name = dir;
     path = pkgs.callPackage (./. + "/${dir}") { inherit revealjs; };
