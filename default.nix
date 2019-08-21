@@ -22,9 +22,9 @@ let
         <title>Presentations</title>
         </head>
         <body>
-          ${lib.concatMapStringsSep "\n" (dir: "<li><a href='${dir}'>${dir}</a></li>") dirs}
+      ${lib.concatMapStringsSep "\n" (dir: "    <li><a href='${dir}'>${dir}</a></li>") dirs}
         </body>
-     </html>
+      </html>
     '';
   };
 in
