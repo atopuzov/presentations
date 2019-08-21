@@ -8,7 +8,10 @@ let
     name = dir;
     path = pkgs.callPackage (./. + "/${dir}") { inherit revealjs; };
   });
-  dirs = [ "calculate-checksum" ];
+  dirs = [
+    "calculate-checksum"
+    "nix-intro"
+  ];
   indexHtml = pkgs.writeTextFile {
     name = "index.html";
     text = ''
