@@ -6,6 +6,7 @@ stdenv.mkDerivation rec {
 
   buildPhase = ''
     pandoc -t revealjs \
+      --slide-level=2 \
       --no-highlight \
       --template=custom.revealjs \
       -s \
