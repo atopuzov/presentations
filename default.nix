@@ -11,6 +11,7 @@ let
   dirs = [
     "calculate-checksum"
     "nix-intro"
+    "slides-test"
   ];
   indexHtml = pkgs.writeTextFile {
     name = "index.html";
