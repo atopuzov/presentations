@@ -50,6 +50,7 @@ let
     ${mkRevealJs}/bin/mkrevealjs \
       --standalone \
       --no-highlight \
+      --slide-level=2 \
       --template=custom.revealjs \
       --output index.html \
        slides.md
