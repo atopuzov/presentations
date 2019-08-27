@@ -97,7 +97,7 @@ Quicksort in haskell
 [Function body]{.fragment .fade-in-then-out fragment-index=1}
 
 <pre>
-<code class="hljs" data-line-numbers="2-4" data-trim data-noescape>
+<code class="hljs" lang-haskell data-line-numbers="2-4" data-trim data-noescape>
 qsort :: Ord a => [a] -> [a]
 qsort []     = []
 qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
@@ -114,8 +114,8 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
 
 Quicksort in haskell
 
-<pre>
-<code class="hljs" lang-haskell data-line-numbers data-trim data-noescape>
+<pre class="haskell">
+<code data-line-numbers data-trim data-noescape>
 <span class="fragment fade-in-then-semi-out" data-fragment-index="1">qsort :: Ord a => [a] -> [a]</span>
 <span class="fragment fade-in-then-semi-out" data-fragment-index="2">qsort []     = []</span>
 <span class="fragment fade-in" data-fragment-index="3">qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++</span>
