@@ -78,7 +78,7 @@ https://github.com/jgm/pandoc/issues/3858
 
 Quicksort in haskell
 
-[Function signature]{.fragment .fade-in-then-out fragment-index=1}
+[Function signature]{.fragment .fade-in fragment-index=1}
 
 <pre class="lang-haskell">
 <code data-line-numbers="1" data-trim data-noescape>
@@ -94,7 +94,7 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
 
 Quicksort in haskell
 
-[Function body]{.fragment .fade-in-then-out fragment-index=1}
+[Function body]{.fragment .fade-in fragment-index=1}
 
 <pre class="lang-haskell">
 <code data-line-numbers="2-4" data-trim data-noescape>
@@ -126,7 +126,7 @@ Quicksort in haskell
 
 [Base case]{.fragment .step-fade-in-then-out fragment-index=2}
 
-[Recursive case]{.fragment .step-fade-in-then-out fragment-index=3}
+[Recursive case]{.fragment .step-fade-in fragment-index=3}
 
 ::: notes
 
@@ -135,3 +135,7 @@ For replacing the fragment used the code from:
 https://github.com/hakimel/reveal.js/issues/745#issuecomment-422507012
 
 :::
+
+---
+
+# Thanks!
