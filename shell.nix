@@ -45,10 +45,20 @@ let
       --output index.html \
        slides.md
   '';
+
+  mkSlidesNH = pkgs.writeShellScriptBin "mkslidesnh" ''
+    ${mkRevealJs}/bin/mkrevealjs \
+      --standalone \
+      --no-highlight \
+      --template=custom.revealjs \
+      --output index.html \
+       slides.md
+  '';
+
 in
   pkgs.stdenv.mkDerivation {
     name = "presentations-shell";
-    buildInputs = [ pkgs.pandoc revealjs mkRevealJs mkSlides linkRevealJs mkSlides2 ];
+    buildInputs = [ pkgs.pandoc revealjs mkRevealJs mkSlides mkSlidesNH linkRevealJs mkSlides2 ];
     shellHook = ''
       export LANG=en_US.UTF-8
       eval "$( ${pkgs.pandoc}/bin/pandoc --bash-completion )"
