@@ -1,5 +1,5 @@
 ---
-title: Advanced code prenetation with reveal.js
+title: Advanced code presentation with reveal.js
 author: Aleksandar Topuzovic
 css:
  - css/tomorrow-night.css
