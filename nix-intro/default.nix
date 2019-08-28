@@ -5,7 +5,10 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildPhase = ''
-    pandoc -t revealjs --highlight-style=tango -s -o index.html slides.md
+    pandoc \
+      -t revealjs \
+      --highlight-style=espresso \
+      -s -o index.html slides.md
   '';
 
   installPhase = ''

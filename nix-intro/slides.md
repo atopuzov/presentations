@@ -1,7 +1,7 @@
 ---
 title: Introduction to Nix
 author: Aleksandar Topuzović
-theme: beige
+theme: night
 ---
 
 ## What is Nix?
