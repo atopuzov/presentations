@@ -71,9 +71,10 @@ Types
 ### Functions
 
 ```nix
-f = arg: arg + arg
+f = x: y: x * y
+d = f 2
+f = {arg, ...}: arg
 
-f = {arg, ...}: arg + arg
 ```
 
 ### let
@@ -86,12 +87,41 @@ in
   a + b
 ```
 
+### rec
+```nix
+rec { a = 15; b = a * 2; }
+```
+
+---
+
+### standard library
+
+built into nix
+
+```nix
+builtins.<function>
+builtins.toJSON
+```
+
+nixos provided lib
+
+```nix
+nixpkgs.lib.<function>
+nixpkgs.lib.mapAttrs
+```
+
 ---
 
 ## Nix the package manager
 
 It treats packages like values in purely functional programming languages.
-Packages are built by functions that don’t have side-effects, and they never change after they have been built.
+
+Packages are built by functions that don’t have side-effects, and they never
+change after they have been built.
+
+--
+
+## Nix store
 
 Nix stores packages in the Nix store, `/nix/store` where each package has its own unique subdirectory
 
@@ -107,18 +137,22 @@ Where `b6gvzjyb2pg0kjfwrjmg1vfhh54ad73z` is a unique identifier for the package 
 ### Reliable
 
 Nix’s purely functional approach ensures that installing or upgrading one
-package cannot break other packages. This is because it won’t overwrite
-dependencies with newer versions that might cause breakage elsewhere. It allows
-you to roll back to previous versions, and ensures that no package is in an
-inconsistent state during an upgrade.
+package cannot break other packages.
+
+This is because it won’t overwrite dependencies with newer versions that might
+cause breakage elsewhere.
+
+It allows you to roll back to previous versions, and ensures that no package is
+in an inconsistent state during an upgrade.
 
 ---
 
 ### Reproducible
 
-Nix builds packages in isolation from each other. This ensures that they are
-reproducible and don’t have undeclared dependencies, so if a package works on
-one machine, it will also work on another.
+Nix builds packages in isolation from each other.
+
+This ensures that they are reproducible and don’t have undeclared dependencies,
+so if a package works on one machine, it will also work on another.
 
 ::: notes
 
@@ -133,16 +167,19 @@ Binary reproducible report for minimal NixOS ISO
 ###  Great for developers
 
 Nix makes it trivial to set up and share build environments for your projects,
-regardless of what programming languages and tools you’re using. For instance,
-running the command “nix-shell '<nixpkgs>' -A firefox” gives you a Bash shell in
-which all of Firefox’s build-time dependencies are present and all necessary
-environment variables are set.
+regardless of what programming languages and tools you’re using.
+
+For instance, running the command “nix-shell '<nixpkgs>' -A firefox” gives you a
+Bash shell in which all of Firefox’s build-time dependencies are present and all
+necessary environment variables are set.
 
 ---
 
 ### Multi-user, multi-version
 
-Nix supports multi-user package management: multiple users can share a common Nix store securely, don’t need to have root privileges to install software, and can install and use different versions of a package.
+Nix supports multi-user package management: multiple users can share a common
+Nix store securely, don’t need to have root privileges to install software, and
+can install and use different versions of a package.
 
 ---
 
@@ -157,7 +194,7 @@ let
   pkgs = import nixpkgs {};
 in
   pkgs.stdenv.mkDerivation {
-    name = "my-loveley-pony";
+    name = "my-loveley-cow";
     phases = ["buildPhase"];
     buildInputs = [ pkgs.cowsay ];
     buildPhase = ''
@@ -167,6 +204,22 @@ in
   }
 ```
 
+---
+## Builders
+
+fetchurl
+
+`nixpkgs/pkgs/build-support/fetchurl/default.nix`
+
+Trivial builders
+
+`nixpkgs/pkgs/build-support/trivial-builders.nix`
+
+eg `writeTextFile``
+
+Other
+
+`pythonPackages.buildPythonPackage`
 
 ---
 
@@ -209,12 +262,15 @@ A collection of derivations
 
 ## Nix shell
 
-The powerhorse of development using Nix.
-A file usually called `shell.nix` contains the declaration of packages that are available to the user.
+The power house of development using Nix.
+
+A file usually called `shell.nix` contains the declaration of packages that are
+available to the user.
 
 ::: notes
 
-Pure mode, environment is cleared before entering the interactive shell so it closely corresponds to a real nix build
+Pure mode, environment is cleared before entering the interactive shell so it
+closely corresponds to a real nix build
 
 :::
 
@@ -264,6 +320,7 @@ advantages.
 ### Configuration
 
 Host configuration defined in
+
 `/etc/nixos/configuration.nix`
 
 ```
@@ -317,18 +374,20 @@ option environment.
 
 ### Channels/Releases
 
-Channels is the method of specifying which version of NixOs.
+Channels is the method of specifying which version of NixOs to install.
+
 There are 2 releases per year (eg. 19.03, 19.09) which correspond to channels.
 
 eg. `http://nixos.org/channels/nixos-19.09`
 
 
-<!-- Shameless plug -->
+::: notes
 
-<!-- https://nixos.org/nixos/manual/release-notes.html#sec-release-19.03-notable-changes -->
+Shameless plug
+https://nixos.org/nixos/manual/release-notes.html#sec-release-19.03-notable-changes
+* The Grafana module now supports declarative datasource and dashboard provisioning.
 
-<!-- * The Grafana module now supports declarative datasource and dashboard provisioning. -->
-
+:::
 
 ---
 
@@ -377,7 +436,17 @@ Linux-libre kernel, and and GNU Shepherd init system.
 
 ---
 
-## cpkg
+## Honorable mentions
+
+Disnix is a distributed service deployment toolset whose main purpose is to
+deploy service oriented systems into networks of machines having various
+characteristics (such as operating systems) and is built on top of Nix
+
+[disnix](https://nixos.org/disnix/)
+
+Hydra is a Nix-based continuous build system. Builds nixpkkgs.
+
+[hydra](https://nixos.org/hydra/)
 
 cpkg is a build tool for C with a particular emphasis on cross compilation. It
 is configured using Dhall.
