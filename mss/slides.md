@@ -10,7 +10,7 @@ Given a list of numbers, the task is to compute the largest possible sum of a co
 
 <pre class="lang-haskell">
 <code data-line-numbers data-trim data-noescape>
-<span class="fragment fade-in-then-semi-out" data-fragment-index="1">[31, -41,</span> 59, 26, -53, 58, 97<span class="fragment fade-in-then-semi-out" data-fragment-index="1">,-93, -23, 84]</span>
+<span class="fragment fade-out" data-fragment-index="1">[31, -41,</span> 59, 26, -53, 58, 97<span class="fragment fade-out" data-fragment-index="1">,-93, -23, 84]</span>
 </code></pre>
 
 ---
