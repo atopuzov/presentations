@@ -1,6 +1,5 @@
 builtins.fetchGit {
-  name = "nixpkgs-r19.09-2019-10-11";
-  url = https://github.com/nixos/nixpkgs/;
-  rev = "95ae53059bd6ba16d3f92fe3f429a079b1a731f7";
-  ref = "release-19.09";
+  url = "https://github.com/NixOS/nixpkgs-channels";
+  rev = "6d68b920eb2df73d68a9355f9d572dbf97add5f5";
+  ref = "nixos-20.03";
  }
