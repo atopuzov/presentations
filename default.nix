@@ -12,6 +12,7 @@ let
     "calculate-checksum"
     "nix-intro"
     "slides-test"
+    "mss"
   ];
   indexHtml = pkgs.writeTextFile {
     name = "index.html";
