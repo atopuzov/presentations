@@ -13,6 +13,7 @@ let
     "nix-intro"
     "slides-test"
     "mss"
+    "baastad"
   ];
   indexHtml = pkgs.writeTextFile {
     name = "index.html";
