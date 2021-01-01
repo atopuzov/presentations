@@ -1,5 +1,4 @@
 language: nix
-nix: 2.3
 
 env:
   - LC_ALL=en_US.UTF-8
@@ -13,6 +12,7 @@ before_deploy:
 deploy:
   local_dir: pages
   provider: pages
+  edge: true
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   keep_history: false
