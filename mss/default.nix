@@ -5,12 +5,15 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildPhase = ''
-    pandoc -t revealjs \
+    pandoc \
+      -t revealjs \
+      -V revealjs-url=./reveal.js \
       --slide-level=2 \
       --no-highlight \
       --template=custom.revealjs \
-      -s \
-      -o index.html slides.md
+      --standalone \
+      --output index.html \
+      slides.md
   '';
 
   installPhase = ''

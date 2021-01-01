@@ -6,14 +6,7 @@ let
 
   # reveal.js 3.7.0 has minified version, needed for self-contained
   # -V revealjs-url=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0 \
-  revealjs_37 = revealjs.overrideAttrs (oldAttrs: rec {
-    version = "3.7.0";
-    name = "reveal.js-${version}";
-    src = pkgs.fetchurl {
-      url = "https://github.com/hakimel/reveal.js/archive/${version}.tar.gz";
-      sha256 = "177viqy19ymlp46dhw4p1i6wxjhxw67ky918f84zbvwxdkjs3j5d";
-    };
-  });
+  revealjs_37 = pkgs.callPackage ./.nix/revealjs_37.nix {};
 
   linkRevealJs = pkgs.writeShellScriptBin "linkrevealjs" ''
     ${pkgs.coreutils}/bin/ln -sf ${revealjs}/reveal.js .

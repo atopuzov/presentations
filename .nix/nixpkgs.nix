@@ -1,6 +1,6 @@
-# git ls-remote https://github.com/NixOS/nixpkgs-channels nixos-20.03
+# git ls-remote https://github.com/NixOS/nixpkgs nixos-20.09
 builtins.fetchGit {
-  url = "https://github.com/NixOS/nixpkgs-channels";
-  rev = "05a32d8e771dc39438835ba0e3141d68ad4e3068";
-  ref = "nixos-20.03";
+  url = "https://github.com/NixOS/nixpkgs";
+  rev = "e065200fc90175a8f6e50e76ef10a48786126e1c";
+  ref = "nixos-20.09";
  }

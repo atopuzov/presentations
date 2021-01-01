@@ -7,8 +7,11 @@ stdenv.mkDerivation rec {
   buildPhase = ''
     pandoc \
       -t revealjs \
+      -V revealjs-url=./reveal.js \
       --highlight-style=espresso \
-      -s -o index.html slides.md
+      --standalone \
+      --output index.html \
+      slides.md
   '';
 
   installPhase = ''

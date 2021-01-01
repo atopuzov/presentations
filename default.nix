@@ -1,6 +1,6 @@
-{ nixpkgs ? (import ./.nix/nixpkgs.nix)
-}:
+{}:
 let
+  nixpkgs = import ./.nix/nixpkgs.nix;
   pkgs = import nixpkgs {};
   lib = pkgs.lib;
   revealjs = pkgs.callPackage ./.nix/revealjs.nix {};
