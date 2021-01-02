@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Aleksandar Topuzović">
+  <title>Introduction to Nix**</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="./reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #2a211c;
+        color: #bdae9d;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+    div.sourceCode
+      { color: #bdae9d; background-color: #2a211c; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffff00; } /* Alert */
+    code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #44aa43; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #049b0a; } /* Char */
+    code span.cn { } /* Constant */
+    code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+    code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+    code span.dt { text-decoration: underline; } /* DataType */
+    code span.dv { color: #44aa43; } /* DecVal */
+    code span.er { color: #ffff00; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #44aa43; } /* Float */
+    code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+    code span.op { } /* Operator */
+    code span.pp { font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #049b0a; } /* SpecialChar */
+    code span.ss { color: #049b0a; } /* SpecialString */
+    code span.st { color: #049b0a; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #049b0a; } /* VerbatimString */
+    code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="./reveal.js/dist/theme/night.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Introduction to Nix**</h1>
+  <p class="author">Aleksandar Topuzović</p>
+</section>
+
+<section id="nix" class="slide level2">
+<h2>Nix</h2>
+<blockquote>
+<p>Nix is a purely functional package manager.</p>
+</blockquote>
+<p>It is built using the Nix language</p>
+</section>
+<section class="slide level2">
+
+<h3 id="nix-the-language">Nix the language</h3>
+<p>The Nix expression language is a pure, lazy, functional language.</p>
+<p>The language was designed especially for the Nix Package Manager.</p>
+<p><a href="https://nixos.wiki/wiki/Nix_Expression_Language">Wiki</a></p>
+<p><a href="https://medium.com/@MrJamesFisher/nix-by-example-a0063a1a4c55">Nix-by-example</a></p>
+<p><a href="https://github.com/tazjin/nix-1p">Nix One Pager</a></p>
+</section>
+<section class="slide level2">
+
+<h3 id="nix-language-basics">Nix language basics</h3>
+<p>Types</p>
+<ul>
+<li>Strings</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="st">&#39;&#39;</span><span class="ex">This</span> is a multiline</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="ex">string</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="st">&#39;&#39;</span></span></code></pre></div>
+<ul>
+<li><p>Integers</p></li>
+<li><p>Floats</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<ul>
+<li>Path</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">/nix/store/b6gvzjyb2pg0kjfwrjmg1vfhh54ad73z-firefox-33.1</span></span></code></pre></div>
+<ul>
+<li><p>URIs</p></li>
+<li><p>Booleans</p></li>
+<li><p>Lists</p></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="bu">[</span> 1 2 3 4 5]</span></code></pre></div>
+<ul>
+<li>Sets</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="ex">key</span> = value<span class="kw">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="ex">other</span> = value2<span class="kw">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="kw">}</span></span></code></pre></div>
+</section>
+<section class="slide level2">
+
+<h3 id="functions">Functions</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">f</span> = x: y: x * y</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ex">d</span> = f 2</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="ex">f</span> = {arg, ...}: <span class="ex">arg</span></span></code></pre></div>
+<h3 id="let">let</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="bu">let</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="ex">a</span> = 1<span class="kw">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>  <span class="ex">b</span> = 2<span class="kw">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="kw">in</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>  <span class="ex">a</span> + b</span></code></pre></div>
+<h3 id="rec">rec</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ex">rec</span> { a = 15<span class="kw">;</span> <span class="ex">b</span> = a * 2<span class="kw">;</span> }</span></code></pre></div>
+</section>
+<section class="slide level2">
+
+<h3 id="standard-library">standard library</h3>
+<p>built into nix</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ex">builtins.</span><span class="op">&lt;</span>function<span class="op">&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="ex">builtins.toJSON</span></span></code></pre></div>
+<p>nixos provided lib</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ex">nixpkgs.lib.</span><span class="op">&lt;</span>function<span class="op">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="ex">nixpkgs.lib.mapAttrs</span></span></code></pre></div>
+</section>
+<section id="nix-the-package-manager" class="slide level2">
+<h2>Nix the package manager</h2>
+<p>It treats packages like values in purely functional programming languages.</p>
+<p>Packages are built by functions that don’t have side-effects, and they never change after they have been built.</p>
+<p>–</p>
+</section>
+<section id="nix-store" class="slide level2">
+<h2>Nix store</h2>
+<p>Nix stores packages in the Nix store, <code>/nix/store</code> where each package has its own unique subdirectory</p>
+<p><code>/nix/store/b6gvzjyb2pg0kjfwrjmg1vfhh54ad73z-firefox-33.1/</code></p>
+<p>Where <code>b6gvzjyb2pg0kjfwrjmg1vfhh54ad73z</code> is a unique identifier for the package that captures all its dependencies (it’s a cryptographic hash of the package’s build dependency graph).</p>
+<p><a href="https://nixos.org/nix/about.html">Nix</a></p>
+</section>
+<section class="slide level2">
+
+<h3 id="reliable">Reliable</h3>
+<p>Nix’s purely functional approach ensures that installing or upgrading one package cannot break other packages.</p>
+<p>This is because it won’t overwrite dependencies with newer versions that might cause breakage elsewhere.</p>
+<p>It allows you to roll back to previous versions, and ensures that no package is in an inconsistent state during an upgrade.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="reproducible">Reproducible</h3>
+<p>Nix builds packages in isolation from each other.</p>
+<p>This ensures that they are reproducible and don’t have undeclared dependencies, so if a package works on one machine, it will also work on another.</p>
+<aside class="notes">
+<p>Binary reproducible report for minimal NixOS ISO</p>
+<p><a href="https://r13y.com/">Report</a></p>
+</aside>
+</section>
+<section class="slide level2">
+
+<h3 id="great-for-developers">Great for developers</h3>
+<p>Nix makes it trivial to set up and share build environments for your projects, regardless of what programming languages and tools you’re using.</p>
+<p>For instance, running the command “nix-shell ‘<nixpkgs>’ -A firefox” gives you a Bash shell in which all of Firefox’s build-time dependencies are present and all necessary environment variables are set.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="multi-user-multi-version">Multi-user, multi-version</h3>
+<p>Nix supports multi-user package management: multiple users can share a common Nix store securely, don’t need to have root privileges to install software, and can install and use different versions of a package.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="derivations">Derivations</h3>
+<p>A recipe how to build a package</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">{</span> <span class="ex">nixpkgs</span> ? <span class="op">&lt;</span>nixpkgs<span class="op">&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="kw">}</span>:</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="bu">let</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>  <span class="ex">pkgs</span> = import nixpkgs {};</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a><span class="kw">in</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>  <span class="ex">pkgs.stdenv.mkDerivation</span> {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>    <span class="ex">name</span> = <span class="st">&quot;my-loveley-cow&quot;</span><span class="kw">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>    <span class="ex">phases</span> = [<span class="st">&quot;buildPhase&quot;</span>]<span class="kw">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>    <span class="ex">buildInputs</span> = [ pkgs.cowsay ]<span class="kw">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>    <span class="ex">buildPhase</span> = <span class="st">&#39;&#39;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>      <span class="fu">mkdir</span> <span class="va">$out</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>      <span class="ex">cowsay</span> <span class="st">&quot;Nix is awesome!&quot;</span> <span class="op">&gt;</span> <span class="va">$out</span>/what.txt</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>    <span class="st">&#39;&#39;</span>;</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>  }</span></code></pre></div>
+</section>
+<section id="install" class="slide level2">
+<h2>Install</h2>
+<p>Nix is available on Linux (works on WSL) and Mac Os X</p>
+<p><code>curl https://nixos.org/nix/install | sh</code></p>
+<p><a href="https://nixos.org/nix/download.html">Download</a></p>
+</section>
+<section id="nix-repl" class="slide level2">
+<h2>Nix Repl</h2>
+<pre><code>$ nix repl
+Welcome to Nix version 2.3.2. Type :? for help.
+
+nix-repl&gt;</code></pre>
+</section>
+<section id="nixpkgs" class="slide level2">
+<h2>NixPkgs</h2>
+<p>Nix package collection is a set of packages for the Nix package manager.</p>
+<p><a href="https://nixos.org/nixpkgs">NixPkgs</a></p>
+<p><a href="https://github.com/NixOS/nixpkgs/tree/master/pkgs">Github NixPkgs</a></p>
+<aside class="notes">
+<p>A collection of derivations</p>
+</aside>
+</section>
+<section id="nix-shell" class="slide level2">
+<h2>Nix shell</h2>
+<p>The power house of development using Nix.</p>
+<p>A file usually called <code>shell.nix</code> contains the declaration of packages that are available to the user.</p>
+<aside class="notes">
+<p>Pure mode, environment is cleared before entering the interactive shell so it closely corresponds to a real nix build</p>
+</aside>
+</section>
+<section class="slide level2">
+
+<h3 id="an-example-haskell-environment">An example Haskell environment</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">{</span> <span class="ex">nixpkgs</span> ? <span class="op">&lt;</span>nixpkgs<span class="op">&gt;</span> <span class="kw">}</span>:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="bu">let</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>  <span class="ex">pkgs</span> = import nixpkgs {};</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>  <span class="ex">haskellWithPackages</span> = pkgs.haskellPackages.ghcWithPackages (pkgs: with pkgs<span class="kw">;</span><span class="bu"> [</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>    array</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>    vector</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>    split</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>    <span class="co"># language tools</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>    hindent</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>    hlint</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a>    stylish-haskell</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a>  ]);</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a>in</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a>pkgs.mkShell {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a>  buildInputs <span class="ot">=</span> [haskellWithPackages];</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true"></a>  shellHook <span class="ot">=</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true"></a>    echo <span class="st">&quot;Ready!&quot;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true"></a>  <span class="st">&#39;&#39;</span>;</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true"></a>}</span></code></pre></div>
+</section>
+<section id="nixos" class="slide level2">
+<h2>NixOS</h2>
+<p>NixOS is a Linux distribution with a unique approach to package and configuration management. Built on top of the Nix package manager, it is completely declarative, makes upgrading systems reliable, and has many other advantages.</p>
+<p><a href="https://nixos.org/nixos/">Nixos</a></p>
+<p><a href="https://nixos.org/nixos/manual/">Manual</a></p>
+</section>
+<section class="slide level2">
+
+<h3 id="configuration">Configuration</h3>
+<p>Host configuration defined in</p>
+<p><code>/etc/nixos/configuration.nix</code></p>
+<pre><code>{ config, lib, pkgs, ... }:
+{
+   imports = [
+    ./hardware-configuration.nix
+  ];
+  ...
+  services.nginx = {
+    enable = true;
+    statusPage = true;
+    virtualHosts.&quot;www.topuzovic.net&quot; = {
+      default = true;
+      enableACME = true;
+      addSSL = true;
+    };
+  };
+ ...
+}
+</code></pre>
+<aside class="notes">
+<p>Configuration changes are applied by creating a new set of files in <code>/etc</code> and not by in place modification</p>
+</aside>
+</section>
+<section class="slide level2">
+
+<h3 id="modules">Modules</h3>
+<p>NixOS has a modular system for declarative configuration. Each module handles a specific thing, modules can reuse other modules and can define options which are used by other modules</p>
+<p><a href="https://nixos.org/nixos/manual/index.html#sec-writing-modules">Writing modules</a></p>
+<aside class="notes">
+<p>For example, the module pam.nix declares the option security.pam.services that allows other modules (e.g. sshd.nix) to define PAM services; and it defines the option environment.</p>
+</aside>
+</section>
+<section class="slide level2">
+
+<h3 id="channelsreleases">Channels/Releases</h3>
+<p>Channels is the method of specifying which version of NixOs to install.</p>
+<p>There are 2 releases per year (eg. 19.03, 19.09) which correspond to channels.</p>
+<p>eg. <code>http://nixos.org/channels/nixos-19.09</code></p>
+<aside class="notes">
+<p>Shameless plug https://nixos.org/nixos/manual/release-notes.html#sec-release-19.03-notable-changes * The Grafana module now supports declarative datasource and dashboard provisioning.</p>
+</aside>
+</section>
+<section id="nixops" class="slide level2">
+<h2>NixOps</h2>
+<p>NixOps is a tool for deploying NixOS machines in a network or cloud. It takes as input a declarative specification of a set of “logical” machines and then performs any necessary steps or actions to realise that specification: instantiate cloud machines, build and download dependencies, stop and start services, and so on.</p>
+<p><a href="https://nixos.org/nixops/">NixOps</a></p>
+<p><a href="https://nixos.org/nixops/manual/">Manual</a></p>
+<p><a href="https://github.com/NixOS/nixops">Code</a></p>
+</section>
+<section id="nix-pills" class="slide level2">
+<h2>Nix pills</h2>
+<p>A series of blog posts that provide a tutorial introduction into the Nix package manager and Nixpkgs package collection, in the form of short chapters called ‘pills’.</p>
+<p><a href="https://nixos.org/nixos/nix-pills/index.html">NixPills</a></p>
+</section>
+<section id="guix" class="slide level2">
+<h2>Guix</h2>
+<p>Based on the Nix package manager but packages are defined as native Guile (scheme) modules. Provides exclusively only free software.</p>
+<p><a href="https://guix.gnu.org/">Guix</a></p>
+<p><a href="https://www.gnu.org/software/guile/">Guile</a></p>
+</section>
+<section class="slide level2">
+
+<h3 id="guix-system-guixsd">Guix System (GuixSD)</h3>
+<p>An advanced distribution of the GNU operating system. It uses the Linux-libre kernel, and and GNU Shepherd init system.</p>
+</section>
+<section id="honorable-mentions" class="slide level2">
+<h2>Honorable mentions</h2>
+<p>Disnix is a distributed service deployment toolset whose main purpose is to deploy service oriented systems into networks of machines having various characteristics (such as operating systems) and is built on top of Nix</p>
+<p><a href="https://nixos.org/disnix/">disnix</a></p>
+<p>Hydra is a Nix-based continuous build system. Builds nixpkkgs.</p>
+<p><a href="https://nixos.org/hydra/">hydra</a></p>
+<p>cpkg is a build tool for C with a particular emphasis on cross compilation. It is configured using Dhall.</p>
+<p>Some would say this is how nix would look with static types.</p>
+<p><a href="https://github.com/vmchale/cpkg">cpkg</a></p>
+</section>
+<section id="questions" class="slide level2">
+<h2>Questions?</h2>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank you!</h2>
+<p>github.com/atopuzov</p>
+<p>twitter.com/atopuzov</p>
+</section>
+    </div>
+  </div>
+
+  <script src="./reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="./reveal.js/plugin/notes/notes.js"></script>
+  <script src="./reveal.js/plugin/search/search.js"></script>
+  <script src="./reveal.js/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

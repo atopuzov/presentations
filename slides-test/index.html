@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Aleksandar Topuzovic">
+  <title>Advanced code presentation with reveal.js</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="./reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="./reveal.js/css/theme/black.css" id="theme">
+  <link rel="stylesheet" href="css/tomorrow-night.css"/>
+  <link rel="stylesheet" href="css/tweaks.css"/>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? './reveal.js/css/print/pdf.css' : './reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="./reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Advanced code presentation with reveal.js</h1>
+  <p class="author">Aleksandar Topuzovic</p>
+</section>
+
+<section>
+<section id="using-highlight.js" class="title-slide slide level1">
+<h1>Using highlight.js</h1>
+<aside class="notes">
+<p>https://highlightjs.org/static/demo/</p>
+</aside>
+</section>
+<section id="requirements" class="slide level2">
+<h2>Requirements</h2>
+<ol type="1">
+<li>–no-highlight</li>
+<li>Custom template to include hljs</li>
+<li>css for the highlight theme</li>
+<li>hljs and lng-* on code</li>
+</ol>
+</section></section>
+<section>
+<section id="markdown-code-blocks" class="title-slide slide level1">
+<h1>Markdown code blocks</h1>
+
+</section>
+<section class="slide level2">
+
+<p>Quicksort in haskell</p>
+<pre id="quicksort" class="lang-haskell"><code>qsort :: Ord a =&gt; [a] -&gt; [a]
+qsort []     = []
+qsort (x:xs) = qsort (filter (&lt; x) xs) ++ [x] ++
+               qsort (filter (&gt;= x) xs)</code></pre>
+<p><small>Using fenced code blocks ~~~</small></p>
+</section>
+<section class="slide level2">
+
+<p>Quicksort in haskell</p>
+<pre class="lang-haskell"><code>qsort :: Ord a =&gt; [a] -&gt; [a]
+qsort []     = []
+qsort (x:xs) = qsort (filter (&lt; x) xs) ++ [x] ++
+               qsort (filter (&gt;= x) xs)</code></pre>
+<p><small>Using fenced code blocks ```</small></p>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="html-precode-blocks" class="title-slide slide level1">
+<h1>Html pre/code blocks</h1>
+
+</section>
+<section class="slide level2">
+
+<p>Quicksort in haskell</p>
+<pre class="lang-haskell">
+<code data-line-numbers data-trim data-noescape>
+qsort :: Ord a => [a] -> [a]
+qsort []     = []
+qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
+               qsort (filter (>= x) xs)
+</code></pre>
+<p><small>Line numbers</small></p>
+<aside class="notes">
+<p>Pandoc adds classes to pre insted of code https://github.com/jgm/pandoc/issues/3858</p>
+</aside>
+</section>
+<section class="slide level2">
+
+<p>Quicksort in haskell</p>
+<p><span class="fragment fade-in" data-fragment-index="1">Function signature</span></p>
+<pre class="lang-haskell">
+<code data-line-numbers="1" data-trim data-noescape>
+qsort :: Ord a => [a] -> [a]
+qsort []     = []
+qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
+               qsort (filter (>= x) xs)
+</code></pre>
+<p><small>Line highlighting</small></p>
+</section>
+<section class="slide level2">
+
+<p>Quicksort in haskell</p>
+<p><span class="fragment fade-in" data-fragment-index="1">Function body</span></p>
+<pre class="lang-haskell">
+<code data-line-numbers="2-4" data-trim data-noescape>
+qsort :: Ord a => [a] -> [a]
+qsort []     = []
+qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
+               qsort (filter (>= x) xs)
+</code></pre>
+<p><small>Multiple line highlighting</small></p>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="html-custom-css" class="title-slide slide level1">
+<h1>Html + custom css</h1>
+
+</section>
+<section class="slide level2">
+
+<p>Quicksort in haskell</p>
+<pre class="lang-haskell">
+<code data-line-numbers data-trim data-noescape>
+<span class="fragment fade-in-then-semi-out" data-fragment-index="1">qsort :: Ord a => [a] -> [a]</span>
+<span class="fragment fade-in-then-semi-out" data-fragment-index="2">qsort []     = []</span>
+<span class="fragment fade-in" data-fragment-index="3">qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++</span>
+<span class="fragment fade-in" data-fragment-index="3">               qsort (filter (>= x) xs)</span>
+</code></pre>
+<p><span class="fragment step-fade-in-then-out" data-fragment-index="1">Function signature</span></p>
+<p><span class="fragment step-fade-in-then-out" data-fragment-index="2">Base case</span></p>
+<p><span class="fragment step-fade-in" data-fragment-index="3">Recursive case</span></p>
+<aside class="notes">
+<p>Had to wrap the 4th line in fragment with the same index as the 3rd line otherwise it’s always displayed For replacing the fragment used the code from: https://github.com/hakimel/reveal.js/issues/745#issuecomment-422507012</p>
+</aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section id="thanks" class="title-slide slide level1">
+<h1>Thanks!</h1>
+
+</section>
+    </div>
+  </div>
+
+  <script src="./reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: './reveal.js/plugin/zoom/zoom.js', async: true },
+          { src: './reveal.js/plugin/notes/notes.js', async: true },
+          { src: './reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+    </body>
+</html>

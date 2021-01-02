@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Aleksandar Topuzovic">
+  <title>Monads for functional programming (paper by Philip Wadler)</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="./reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="./reveal.js/css/theme/black.css" id="theme">
+  <link rel="stylesheet" href="css/tomorrow-night.css"/>
+  <link rel="stylesheet" href="css/tweaks.css"/>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? './reveal.js/css/print/pdf.css' : './reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="./reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Monads for functional programming (paper by Philip Wadler)</h1>
+  <p class="author">Aleksandar Topuzovic</p>
+</section>
+
+<section class="slide level2">
+
+<p>WORK IN PROGRESS</p>
+</section>
+<section class="slide level2">
+
+<p><a href="https://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf">Paper</a></p>
+</section>
+<section class="slide level2">
+
+<pre><code>data Term = Con Int
+  | Div Term Term deriving Show
+
+answer, error :: Term
+answer = (Div (Div (Con 1972 ) (Con 2 )) (Con 23 ))
+error = (Div (Con 1 ) (Con 0 ))</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>eval :: Term -&gt; Int
+eval (Con a)   = a
+eval (Div t u) = (eval t) `div` (eval u)</code></pre>
+</section>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="exceptions" class="title-slide slide level1">
+<h1>Exceptions</h1>
+<pre><code>data M a = Raise Exception
+  | Return a deriving Show
+
+type Exception = String</code></pre>
+<pre><code>eval (Con a) = Return a
+eval (Div t u) =
+  case eval t of
+    Raise e -&gt; Raise e
+    Return a -&gt;
+      case eval u of
+        Raise e -&gt; Raise e
+        Return b -&gt;
+          if b == 0
+          then Raise &quot;divide by zero&quot;
+          else Return (a `div` b)</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>ifOk :: M a -&gt; (a -&gt; M b) -&gt; M b
+ifOk op k = case op of
+  Raise e -&gt; Raise e
+  Return a -&gt; k a</code></pre>
+<pre><code>safeDiv a 0 = Raise &quot;divide by zero&quot;
+safeDiv a b = Return $ a `div` b</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>eval (Con a) = Return a
+eval (Div t u) =
+  eval t `ifOk` \a -&gt;
+  eval u `ifOk` \b -&gt;
+  safeDiv a b
+</code></pre>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="state" class="title-slide slide level1">
+<h1>State</h1>
+<p>count the number of division performed during evaluation</p>
+<pre><code>type M a = State -&gt; (a, State)
+type State = Int
+</code></pre>
+<p>Vale of type M a is a function that accepts the initial state and returns the computed value paied with the final state</p>
+<pre><code>eval (Con a) x = (a, x)
+eval (Div t u) x =
+  let (a, y) = eval t x
+      (b, z) = eval u y in
+    (a `div` b, z + 1)
+</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>andThen op k = \x -&gt;
+  let (a, y) = op x
+      (b, z) = (k a) y
+  in (b, z)</code></pre>
+<p>A few other helper functions</p>
+<pre><code>returnState x = \s -&gt; (x, s)
+getState = \s -&gt; (s, s)
+putState s = \_ -&gt; ((), s)</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>eval (Con a)   = returnState a
+eval (Div t u) =
+  eval t         `andThen` \a -&gt;
+  eval u         `andThen` \b -&gt;
+  getState       `andThen` \z -&gt;
+  putState (z+1) `andThen` \_ -&gt;
+  returnState (a `div` b)</code></pre>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="output" class="title-slide slide level1">
+<h1>Output</h1>
+<pre><code>type M a = (Output, a)
+
+type Output = String
+</code></pre>
+<pre><code>eval (Con a) = (line (Con a) a, a)
+eval (Div t u) =
+  let (x, a) = eval t
+      (y, b) = eval u in
+    (x ++ y ++ line (Div t u) (a `div` b), a `div` b)</code></pre>
+<p>And display it in the reverse order</p>
+<pre><code>(line (Div t u) (a `div` b) ++ y + x, a `div` b)</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>withLog op k =
+  let (x, a) = op
+      (y, b) = k a
+  in (x ++ y, b)
+</code></pre>
+<pre><code>returnLog x = (&quot;&quot;, x)
+printLine s = (s, ())</code></pre>
+</section>
+<section class="slide level2">
+
+</section>
+<section class="slide level2">
+
+<pre><code>eval (Con a) =
+  printLine (line (Con a) a)             `withLog` \_ -&gt;
+  returnLog a
+
+eval (Div t u) =
+  eval t                                 `withLog` \a -&gt;
+  eval u                                 `withLog` \b -&gt;
+  printLine (line (Div t u) (a `div` b)) `withLog` \_ -&gt;
+  returnLog $ a `div` b</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>ifOk    :: M a -&gt; (a -&gt; M b) -&gt; M b
+andThen :: M a -&gt; (a -&gt; M b) -&gt; M b
+withLog :: M a -&gt; (a -&gt; M b) -&gt; M b
+</code></pre>
+<pre><code>(&gt;&gt;=) :: Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b</code></pre>
+</section>
+<section class="slide level2">
+
+<pre><code>class Applicative m =&gt; Monad m where
+    -- | Sequentially compose two actions, passing any value produced
+    -- by the first as an argument to the second.
+    (&gt;&gt;=) :: forall a b. m a -&gt; (a -&gt; m b) -&gt; m b
+
+    -- | Inject a value into the monadic type.
+    return      :: a -&gt; m a
+    return      = pure
+</code></pre>
+</section>
+<section id="questions" class="slide level2">
+<h2>Questions?</h2>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank you!</h2>
+<p>github.com/atopuzov</p>
+<p>twitter.com/atopuzov</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="./reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: './reveal.js/plugin/zoom/zoom.js', async: true },
+          { src: './reveal.js/plugin/notes/notes.js', async: true },
+          { src: './reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+    </body>
+</html>
