@@ -19,9 +19,7 @@ jobs:
     - name: Build presentations
       run: |
         nix build
-        rsync -aL --inplace --no-whole-file result/ gh-pages
-        find gh-pages -type d | xargs chmod 755
-        find gh-pages -type f | xargs chmod 644
+        rsync -rL --chmod=ugo=rwX --inplace --no-whole-file result/ gh-pages
     - name: Deploy to GitHub Pages
       if: success()
       uses: JamesIves/github-pages-deploy-action@4.1.4
