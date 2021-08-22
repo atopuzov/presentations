@@ -3,10 +3,10 @@ name: Publish presentations
 on:
   workflow_dispatch:
     branches:
-      - main
+      - master
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -19,7 +19,9 @@ jobs:
     - name: Build presentations
       run: |
         nix build
-        rsync -avvL --inplace --no-whole-file result/ gh-pages
+        rsync -aL --inplace --no-whole-file result/ gh-pages
+        find gh-pages -type d | xargs chmod 755
+        find gh-pages -type f | xargs chmod 644
     - name: Deploy to GitHub Pages
       if: success()
       uses: JamesIves/github-pages-deploy-action@4.1.4
