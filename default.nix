@@ -1,13 +1,16 @@
 {}:
 let
-  nixpkgs = import ./.nix/nixpkgs.nix;
+  sources = import ./nix/sources.nix;
+  nixpkgs = sources.nixpkgs;
   pkgs = import nixpkgs {};
   lib = pkgs.lib;
-  revealjs = pkgs.callPackage ./.nix/revealjs.nix {};
+  revealjs = pkgs.callPackage ./nix/revealjs.nix {};
+
   presentations = map(dir: {
     name = dir;
     path = pkgs.callPackage (./. + "/${dir}") { inherit revealjs; };
   });
+
   dirs = [
     "calculate-checksum"
     "nix-intro"
@@ -15,6 +18,7 @@ let
     "mss"
     "baastad"
   ];
+
   indexHtml = pkgs.writeTextFile {
     name = "index.html";
     text = ''

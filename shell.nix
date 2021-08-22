@@ -1,12 +1,13 @@
-{ nixpkgs ? (import ./.nix/nixpkgs.nix)
-}:
+{}:
 let
+  sources = import ./nix/sources.nix;
+  nixpkgs = sources.nixpkgs;
   pkgs = import nixpkgs {};
-  revealjs = pkgs.callPackage ./.nix/revealjs.nix {};
+  revealjs = pkgs.callPackage ./nix/revealjs.nix {};
 
   # reveal.js 3.7.0 has minified version, needed for self-contained
   # -V revealjs-url=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0 \
-  revealjs_37 = pkgs.callPackage ./.nix/revealjs_37.nix {};
+  revealjs_37 = pkgs.callPackage ./nix/revealjs_37.nix {};
 
   linkRevealJs = pkgs.writeShellScriptBin "linkrevealjs" ''
     ${pkgs.coreutils}/bin/ln -sf ${revealjs}/reveal.js .

@@ -1,12 +1,12 @@
 { stdenv, fetchurl }:
 
 stdenv.mkDerivation rec {
-  version = "4.1.0";
+  version = "4.1.2";
   pname = "reveal.js";
 
   src = fetchurl {
-    url = "https://github.com/hakimel/reveal.js/archive/4.1.0.tar.gz";
-    sha256 = "0bv3z6kp4f77w75wrzs9av1ip8q8x8z7a6y8ad961c1y4d6vki99";
+    url = "https://github.com/hakimel/reveal.js/archive/${version}.tar.gz";
+    sha256 = "1vjmg29caqppy35my6sfj1qxqa8idh6galw5c9bzwbyhcvs2vkv3";
   };
 
   installPhase = ''
