@@ -1,9 +1,12 @@
 name: Publish presentations
 
 on:
+  workflow_dispatch:
+    branches:
+      - main
   push:
     branches:
-    - main
+      - main
 
 jobs:
   build:
