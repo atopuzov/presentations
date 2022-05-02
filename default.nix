@@ -8,7 +8,7 @@ let
 
   presentations = map(dir: {
     name = dir;
-    path = pkgs.callPackage (./. + "/${dir}") { inherit revealjs; };
+    path = pkgs.callPackage (./presentations + "/${dir}") { inherit revealjs; };
   });
 
   dirs = [
