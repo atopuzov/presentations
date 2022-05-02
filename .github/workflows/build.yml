@@ -21,7 +21,7 @@ jobs:
           experimental-features = nix-command
     - name: Build presentations
       run: |
-        nix build
+        nix-build
         rsync -rL --chmod=ugo=rwX --inplace --no-whole-file result/ gh-pages
     - name: Deploy to GitHub Pages
       if: success()
