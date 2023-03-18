@@ -2,12 +2,12 @@
 let
   sources = import ./nix/sources.nix;
   nixpkgs = sources.nixpkgs;
-  pkgs = import nixpkgs {};
-  revealjs = pkgs.callPackage ./nix/revealjs.nix {};
+  pkgs = import nixpkgs { };
+  revealjs = pkgs.callPackage ./nix/revealjs.nix { };
 
   # reveal.js 3.7.0 has minified version, needed for self-contained
   # -V revealjs-url=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0 \
-  revealjs_37 = pkgs.callPackage ./nix/revealjs_37.nix {};
+  revealjs_37 = pkgs.callPackage ./nix/revealjs_37.nix { };
 
   linkRevealJs = pkgs.writeShellScriptBin "linkrevealjs" ''
     ${pkgs.coreutils}/bin/ln -sf ${revealjs}/reveal.js .
@@ -72,12 +72,13 @@ let
   '';
 
 in
-  pkgs.stdenv.mkDerivation {
-    name = "presentations-shell";
-    buildInputs = [ pkgs.pandoc revealjs mkSlides linkRevealJs ];
-    shellHook = ''
-      export LANG=en_US.UTF-8
-      eval "$( ${pkgs.pandoc}/bin/pandoc --bash-completion )"
-      echo "Welcome!"
-    '';
-  }
+pkgs.stdenv.mkDerivation {
+  name = "presentations-shell";
+  buildInputs = [ pkgs.pandoc revealjs mkSlides linkRevealJs ];
+  NIX_PATH = "nixpkgs=${sources.nixpkgs.url}";
+  shellHook = ''
+    export LANG=en_US.UTF-8
+    eval "$( ${pkgs.pandoc}/bin/pandoc --bash-completion )"
+    echo "Welcome!"
+  '';
+}
