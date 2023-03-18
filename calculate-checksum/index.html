@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="./reveal.js/dist/reset.css">
   <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
   <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     span.underline{text-decoration: underline;}
@@ -94,11 +97,15 @@
 
 <section class="slide level2">
 
-<p>Given an 2D array representing a spreadsheet calculate the checksum of the spreadsheet. The checksum is calculated by summing up the checksum of each row. Row checksum is the difference between the largest and the smallest number.</p>
+<p>Given an 2D array representing a spreadsheet calculate the checksum
+of the spreadsheet. The checksum is calculated by summing up the
+checksum of each row. Row checksum is the difference between the largest
+and the smallest number.</p>
 </section>
 <section class="slide level2">
 
-<h4 id="given-the-following-spreadsheet">Given the following spreadsheet</h4>
+<h4 id="given-the-following-spreadsheet">Given the following
+spreadsheet</h4>
 <pre><code>5 1 9 5
 7 5 3
 2 4 6 8</code></pre>
@@ -119,7 +126,8 @@
 <section class="slide level2">
 
 <h3 id="a-simple-solution">A simple solution</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rowCksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> a</span>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rowCksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> a</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rowCksum xs <span class="ot">=</span> rmax <span class="op">-</span> rmin</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    rmin <span class="ot">=</span> <span class="fu">minimum</span> xs</span>
@@ -149,7 +157,8 @@
 <h3 id="a-better-solution">A better solution</h3>
 <p>We implement our own min max finder using a fold</p>
 <div class="fragment">
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>findMinMax (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="fu">foldr</span> helper (x, x) xs</span>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>findMinMax (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="fu">foldr</span> helper (x, x) xs</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    helper x (cmin, cmax) <span class="ot">=</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> nmin <span class="ot">=</span> <span class="kw">if</span> x <span class="op">&lt;</span> cmin <span class="kw">then</span> x <span class="kw">else</span> cmin</span>
@@ -170,19 +179,25 @@
 </section>
 <section id="semigroup" class="slide level2">
 <h2>Semigroup</h2>
-<p>In mathematics, a semigroup is an algebraic structure consisting of a set together with an associative binary operation.</p>
+<p>In mathematics, a semigroup is an algebraic structure consisting of a
+set together with an associative binary operation.</p>
 <p>Laws</p>
 <p>(A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)</p>
-<p><small><a href="https://en.wikipedia.org/wiki/Semigroup" class="uri">https://en.wikipedia.org/wiki/Semigroup</a></small></p>
+<p><small><a href="https://en.wikipedia.org/wiki/Semigroup"
+class="uri">https://en.wikipedia.org/wiki/Semigroup</a></small></p>
 </section>
 <section id="semigroup-in-haskell" class="slide level2">
 <h2>Semigroup in Haskell</h2>
 <p>Implemented as a typeclass</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span></span>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  (&lt;&gt;) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
 <p>Laws</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">&lt;&gt;</span> (y <span class="op">&lt;&gt;</span> z) <span class="ot">=</span> (x <span class="op">&lt;&gt;</span> y) <span class="op">&lt;&gt;</span> z</span></code></pre></div>
-<p><small><a href="https://hackage.haskell.org/package/base/docs/Data-Semigroup.html" class="uri">https://hackage.haskell.org/package/base/docs/Data-Semigroup.html</a></small></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">&lt;&gt;</span> (y <span class="op">&lt;&gt;</span> z) <span class="ot">=</span> (x <span class="op">&lt;&gt;</span> y) <span class="op">&lt;&gt;</span> z</span></code></pre></div>
+<p><small><a
+href="https://hackage.haskell.org/package/base/docs/Data-Semigroup.html"
+class="uri">https://hackage.haskell.org/package/base/docs/Data-Semigroup.html</a></small></p>
 </section>
 <section id="monoid" class="slide level2">
 <h2>Monoid</h2>
@@ -190,23 +205,29 @@
 <p>Laws</p>
 <p>A ⊕ E = E ⊕ A = A</p>
 <p>(A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)</p>
-<p><small><a href="https://en.wikipedia.org/wiki/Monoid" class="uri">https://en.wikipedia.org/wiki/Monoid</a></small></p>
+<p><small><a href="https://en.wikipedia.org/wiki/Monoid"
+class="uri">https://en.wikipedia.org/wiki/Monoid</a></small></p>
 </section>
 <section id="monoid-in-haskell" class="slide level2">
 <h2>Monoid in Haskell</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="ot">=&gt;</span> <span class="dt">Monoid</span> a <span class="kw">where</span></span>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="ot">=&gt;</span> <span class="dt">Monoid</span> a <span class="kw">where</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  mempty ::</span> a</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  mappend ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mappend</span> <span class="ot">=</span> (<span class="op">&lt;&gt;</span>)</span></code></pre></div>
 <p>Laws</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">&lt;&gt;</span> <span class="fu">mempty</span> <span class="ot">=</span> x</span>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">&lt;&gt;</span> <span class="fu">mempty</span> <span class="ot">=</span> x</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mempty</span> <span class="op">&lt;&gt;</span> x <span class="ot">=</span> x</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">&lt;&gt;</span> (y <span class="op">&lt;&gt;</span> z) <span class="ot">=</span> (x <span class="op">&lt;&gt;</span> y) <span class="op">&lt;&gt;</span> z</span></code></pre></div>
-<p><small><a href="https://hackage.haskell.org/package/base/docs/Data-Monoid.html" class="uri">https://hackage.haskell.org/package/base/docs/Data-Monoid.html</a></small></p>
+<p><small><a
+href="https://hackage.haskell.org/package/base/docs/Data-Monoid.html"
+class="uri">https://hackage.haskell.org/package/base/docs/Data-Monoid.html</a></small></p>
 </section>
 <section class="slide level2">
 
-<h3 id="some-of-the-monoids-available-in-base">Some of the monoids available in base</h3>
+<h3 id="some-of-the-monoids-available-in-base">Some of the monoids
+available in base</h3>
 <p>Num monoids</p>
 <ul>
 <li>Min</li>
@@ -223,13 +244,16 @@
 <section class="slide level2">
 
 <h3 id="lets-build-our-own-semigroup">Let’s build our own semigroup</h3>
-<p>We can reuse <code>Min</code>, <code>Max</code> and <code>Sum</code></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Min</span> a <span class="ot">=</span> <span class="dt">Min</span> {<span class="ot"> getMin ::</span> a }</span>
+<p>We can reuse <code>Min</code>, <code>Max</code> and
+<code>Sum</code></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Min</span> a <span class="ot">=</span> <span class="dt">Min</span> {<span class="ot"> getMin ::</span> a }</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Max</span> a <span class="ot">=</span> <span class="dt">Max</span> {<span class="ot"> getMax ::</span> a }</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Sum</span> a <span class="ot">=</span> <span class="dt">Sum</span> {<span class="ot"> getSum ::</span> a }</span></code></pre></div>
 <div class="fragment">
 <p>We define our data type</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">MinMax</span> a <span class="ot">=</span> <span class="dt">MinMax</span> {</span>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">MinMax</span> a <span class="ot">=</span> <span class="dt">MinMax</span> {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    myMin ::</span> <span class="dt">Min</span> a</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  ,<span class="ot"> myMax ::</span> <span class="dt">Max</span> a</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  } <span class="kw">deriving</span> <span class="dt">Show</span></span></code></pre></div>
@@ -237,34 +261,45 @@
 </section>
 <section class="slide level2">
 
-<h4 id="we-define-how-we-smash-the-elements-together">We define how we smash the elements together</h4>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> <span class="dt">Semigroup</span> (<span class="dt">MinMax</span> a) <span class="kw">where</span></span>
+<h4 id="we-define-how-we-smash-the-elements-together">We define how we
+smash the elements together</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> <span class="dt">Semigroup</span> (<span class="dt">MinMax</span> a) <span class="kw">where</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  a <span class="op">&lt;&gt;</span> b <span class="ot">=</span> <span class="dt">MinMax</span> (myMin a <span class="op">&lt;&gt;</span> myMin b) (myMax a <span class="op">&lt;&gt;</span> myMax b)</span></code></pre></div>
-<h4 id="and-a-function-that-lifts-normal-types-into-our-special-type">And a function that lifts normal types into our special type</h4>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">mkMinMax ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">MinMax</span> a</span>
+<h4
+id="and-a-function-that-lifts-normal-types-into-our-special-type">And a
+function that lifts normal types into our special type</h4>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">mkMinMax ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">MinMax</span> a</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mkMinMax x <span class="ot">=</span> <span class="dt">MinMax</span> (<span class="dt">Min</span> x) (<span class="dt">Max</span> x)</span></code></pre></div>
 </section>
 <section class="slide level2">
 
 <h4 id="we-calculate-the-difference">We calculate the difference</h4>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">calcDiff ::</span> <span class="dt">Num</span> a <span class="ot">=&gt;</span> <span class="dt">MinMax</span> a <span class="ot">-&gt;</span> a</span>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">calcDiff ::</span> <span class="dt">Num</span> a <span class="ot">=&gt;</span> <span class="dt">MinMax</span> a <span class="ot">-&gt;</span> a</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>calcDiff x <span class="ot">=</span> (getMax <span class="op">.</span> myMax <span class="op">$</span> x) <span class="op">-</span> (getMin <span class="op">.</span> myMin <span class="op">$</span> x)</span></code></pre></div>
 <h4 id="and-checksum-for-each-row">And checksum for each row</h4>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rowCksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Sum</span> a)</span>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rowCksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Sum</span> a)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>rowCksum xs <span class="ot">=</span> <span class="fu">fmap</span> (<span class="dt">Sum</span> <span class="op">.</span> calcDiff) res</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">=</span> <span class="fu">foldMap</span> (<span class="dt">Just</span> <span class="op">.</span> mkMinMax) xs</span></code></pre></div>
 </section>
 <section class="slide level2">
 
-<h4 id="and-for-the-entire-spreadsheet">And for the entire spreadsheet</h4>
-<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">cksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [[a]] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
+<h4 id="and-for-the-entire-spreadsheet">And for the entire
+spreadsheet</h4>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">cksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [[a]] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cksum xs <span class="ot">=</span> <span class="fu">fmap</span> getSum <span class="op">$</span> <span class="fu">foldMap</span> (rowCksum) xs</span></code></pre></div>
 </section>
 <section id="results" class="slide level2">
 <h2>Results</h2>
-<p>We iterate trough the row only once and combine the elements of the row by using the custom monoid.</p>
-<p>For the row checksum we use the Sum monoid which we combine with other rows to obtain the spreadsheet checksum.</p>
+<p>We iterate trough the row only once and combine the elements of the
+row by using the custom monoid.</p>
+<p>For the row checksum we use the Sum monoid which we combine with
+other rows to obtain the spreadsheet checksum.</p>
 <div class="fragment">
 <p>We wrap our semigroup in a Maybe to obtain a monoid.</p>
 <p>It makes the handling of empty rows/spreadsheets trivial.</p>
@@ -275,15 +310,19 @@
 </section>
 <section class="slide level2">
 
-<h3 id="we-can-reuse-the-semigrup-instance-for-pair">We can reuse the Semigrup instance for pair (,)</h3>
+<h3 id="we-can-reuse-the-semigrup-instance-for-pair">We can reuse the
+Semigrup instance for pair (,)</h3>
 <h4 id="we-need-a-new-lift-function">We need a new lift function</h4>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">mkMinMax ::</span> a <span class="ot">-&gt;</span> (<span class="dt">Maybe</span> (<span class="dt">Min</span> a), <span class="dt">Maybe</span> (<span class="dt">Max</span> a))</span>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">mkMinMax ::</span> a <span class="ot">-&gt;</span> (<span class="dt">Maybe</span> (<span class="dt">Min</span> a), <span class="dt">Maybe</span> (<span class="dt">Max</span> a))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mkMinMax x <span class="ot">=</span> (<span class="dt">Just</span> <span class="op">$</span> <span class="dt">Min</span> x, <span class="dt">Just</span> <span class="op">$</span> <span class="dt">Max</span> x)</span></code></pre></div>
 </section>
 <section class="slide level2">
 
-<h4 id="checksum-calculation-remains-similar">Checksum calculation remains similar</h4>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">calcDiff ::</span> (<span class="dt">Applicative</span> f, <span class="dt">Num</span> a) <span class="ot">=&gt;</span> (f a, f a) <span class="ot">-&gt;</span> f a</span>
+<h4 id="checksum-calculation-remains-similar">Checksum calculation
+remains similar</h4>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">calcDiff ::</span> (<span class="dt">Applicative</span> f, <span class="dt">Num</span> a) <span class="ot">=&gt;</span> (f a, f a) <span class="ot">-&gt;</span> f a</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>calcDiff x <span class="ot">=</span> (<span class="op">-</span>) <span class="op">&lt;$&gt;</span> (<span class="fu">snd</span> x) <span class="op">&lt;*&gt;</span> (<span class="fu">fst</span> x)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ot">rowCksum ::</span> (<span class="dt">Num</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Sum</span> a)</span>
@@ -297,8 +336,12 @@
 </section>
 <section class="slide level2">
 
-<p><a href="https://github.com/atopuzov/haskellstuff/tree/master/calcchecksum">Repository with code</a></p>
-<p><a href="https://argumatronic.com/posts/2019-06-21-algebra-cheatsheet.html">Algebra cheatsheet</a></p>
+<p><a
+href="https://github.com/atopuzov/haskellstuff/tree/master/calcchecksum">Repository
+with code</a></p>
+<p><a
+href="https://argumatronic.com/posts/2019-06-21-algebra-cheatsheet.html">Algebra
+cheatsheet</a></p>
 </section>
 <section id="questions" class="slide level2">
 <h2>Questions?</h2>
@@ -348,7 +391,7 @@
 
         // Add the current slide number to the URL hash so that reloading the
         // page/copying the URL will return you to the same slide
-        hash: false,
+        hash: true,
 
         // Start with 1 for the hash rather than 0
         hashOneBasedIndex: false,

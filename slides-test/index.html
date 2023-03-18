@@ -91,13 +91,15 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
 </code></pre>
 <p><small>Line numbers</small></p>
 <aside class="notes">
-<p>Pandoc adds classes to pre insted of code https://github.com/jgm/pandoc/issues/3858</p>
+<p>Pandoc adds classes to pre insted of code
+https://github.com/jgm/pandoc/issues/3858</p>
 </aside>
 </section>
 <section class="slide level2">
 
 <p>Quicksort in haskell</p>
-<p><span class="fragment fade-in" data-fragment-index="1">Function signature</span></p>
+<p><span class="fragment fade-in" data-fragment-index="1">Function
+signature</span></p>
 <pre class="lang-haskell">
 <code data-line-numbers="1" data-trim data-noescape>
 qsort :: Ord a => [a] -> [a]
@@ -110,7 +112,8 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
 <section class="slide level2">
 
 <p>Quicksort in haskell</p>
-<p><span class="fragment fade-in" data-fragment-index="1">Function body</span></p>
+<p><span class="fragment fade-in" data-fragment-index="1">Function
+body</span></p>
 <pre class="lang-haskell">
 <code data-line-numbers="2-4" data-trim data-noescape>
 qsort :: Ord a => [a] -> [a]
@@ -138,11 +141,17 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
 <span class="fragment fade-in" data-fragment-index="3">qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++</span>
 <span class="fragment fade-in" data-fragment-index="3">               qsort (filter (>= x) xs)</span>
 </code></pre>
-<p><span class="fragment step-fade-in-then-out" data-fragment-index="1">Function signature</span></p>
-<p><span class="fragment step-fade-in-then-out" data-fragment-index="2">Base case</span></p>
-<p><span class="fragment step-fade-in" data-fragment-index="3">Recursive case</span></p>
+<p><span class="fragment step-fade-in-then-out"
+data-fragment-index="1">Function signature</span></p>
+<p><span class="fragment step-fade-in-then-out"
+data-fragment-index="2">Base case</span></p>
+<p><span class="fragment step-fade-in" data-fragment-index="3">Recursive
+case</span></p>
 <aside class="notes">
-<p>Had to wrap the 4th line in fragment with the same index as the 3rd line otherwise it’s always displayed For replacing the fragment used the code from: https://github.com/hakimel/reveal.js/issues/745#issuecomment-422507012</p>
+<p>Had to wrap the 4th line in fragment with the same index as the 3rd
+line otherwise it’s always displayed For replacing the fragment used the
+code from:
+https://github.com/hakimel/reveal.js/issues/745#issuecomment-422507012</p>
 </aside>
 </section>
 <section class="slide level2">
@@ -182,17 +191,13 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
         controlsBackArrows: 'faded',
         // Display a presentation progress bar
         progress: true,
-        // Display the page number of the current slide
-        slideNumber: false,
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
         // Add the current slide number to the URL hash so that reloading the
         // page/copying the URL will return you to the same slide
-        hash: false,
-        // Start with 1 for the hash rather than 0
-        hashOneBasedIndex: false,
+        hash: true,
         // Push each slide change to the browser history
-        history: false,
+        history: true,
         // Enable keyboard shortcuts for navigation
         keyboard: true,
         // Enable the slide overview mode
@@ -201,29 +206,18 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
         center: true,
         // Enables touch navigation on devices with touch input
         touch: true,
-        // Loop the presentation
-        loop: false,
-        // Change the presentation direction to be RTL
-        rtl: false,
         // see https://revealjs.com/vertical-slides/#navigation-mode
         navigationMode: 'default',
-        // Randomizes the order of slides each time the presentation loads
-        shuffle: false,
         // Turns fragments on and off globally
         fragments: true,
         // Flags whether to include the current fragment in the URL,
         // so that reloading brings you to the same fragment position
         fragmentInURL: true,
-        // Flags if the presentation is running in an embedded mode,
-        // i.e. contained within a limited portion of the screen
-        embedded: false,
         // Flags if we should show a help overlay when the questionmark
         // key is pressed
         help: true,
        // Flags if it should be possible to pause the presentation (blackout)
        pause: true,
-        // Flags if speaker notes should be visible to all viewers
-        showNotes: false,
         // Global override for autoplaying embedded media (video/audio/iframe)
         // - null: Media will only autoplay if data-autoplay is present
         // - true: All media will autoplay, regardless of individual setting
@@ -247,14 +241,10 @@ qsort (x:xs) = qsort (filter (< x) xs) ++ [x] ++
         // presenting each slide. This is used to show a pacing timer in the
         // speaker view
         defaultTiming: null,
-        // Enable slide navigation via mouse wheel
-        mouseWheel: false,
         // Hide cursor if inactive
         hideInactiveCursor: true,
         // Time before the cursor is hidden (in ms)
         hideCursorTime: 5000,
-        // Opens links in an iframe preview overlay
-        previewLinks: false,
         // Transition style
         transition: 'slide', // none/fade/slide/convex/concave/zoom
         // Transition speed

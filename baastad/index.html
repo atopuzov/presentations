@@ -36,7 +36,8 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Monads for functional programming (paper by Philip Wadler)</h1>
+  <h1 class="title">Monads for functional programming (paper by Philip
+Wadler)</h1>
   <p class="author">Aleksandar Topuzovic</p>
 </section>
 
@@ -46,7 +47,8 @@
 </section>
 <section class="slide level2">
 
-<p><a href="https://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf">Paper</a></p>
+<p><a
+href="https://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf">Paper</a></p>
 </section>
 <section class="slide level2">
 
@@ -113,7 +115,8 @@ eval (Div t u) =
 <pre><code>type M a = State -&gt; (a, State)
 type State = Int
 </code></pre>
-<p>Vale of type M a is a function that accepts the initial state and returns the computed value paied with the final state</p>
+<p>Vale of type M a is a function that accepts the initial state and
+returns the computed value paied with the final state</p>
 <pre><code>eval (Con a) x = (a, x)
 eval (Div t u) x =
   let (a, y) = eval t x
@@ -227,10 +230,8 @@ withLog :: M a -&gt; (a -&gt; M b) -&gt; M b
         controls: true,
         // Display a presentation progress bar
         progress: true,
-        // Display the page number of the current slide
-        slideNumber: false,
         // Push each slide change to the browser history
-        history: false,
+        history: true,
         // Enable keyboard shortcuts for navigation
         keyboard: true,
         // Enable the slide overview mode
@@ -239,30 +240,17 @@ withLog :: M a -&gt; (a -&gt; M b) -&gt; M b
         center: true,
         // Enables touch navigation on devices with touch input
         touch: true,
-        // Loop the presentation
-        loop: false,
-        // Change the presentation direction to be RTL
-        rtl: false,
         // Turns fragments on and off globally
         fragments: true,
-        // Flags if the presentation is running in an embedded mode,
-        // i.e. contained within a limited portion of the screen
-        embedded: false,
         // Flags if we should show a help overlay when the questionmark
         // key is pressed
         help: true,
-        // Flags if speaker notes should be visible to all viewers
-        showNotes: false,
         // Number of milliseconds between automatically proceeding to the
         // next slide, disabled when set to 0, this value can be overwritten
         // by using a data-autoslide attribute on your slides
         autoSlide: 0,
         // Stop auto-sliding after user input
         autoSlideStoppable: true,
-        // Enable slide navigation via mouse wheel
-        mouseWheel: false,
-        // Opens links in an iframe preview overlay
-        previewLinks: false,
         // Transition style
         transition: 'slide', // none/fade/slide/convex/concave/zoom
         // Transition speed
