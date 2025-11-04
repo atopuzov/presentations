@@ -17,12 +17,11 @@ jobs:
     - name: Install Nix
       uses: cachix/install-nix-action@v17
       with:
-        nix_path: 'nixpkgs=./nix'
         extra_nix_config: |
-          experimental-features = nix-command
+          experimental-features = nix-command flakes
     - name: Build presentations
       run: |
-        nix-build
+        nix build
         rsync -rL --chmod=ugo=rwX --inplace --no-whole-file result/ gh-pages
     - name: Deploy to GitHub Pages
       if: success()
