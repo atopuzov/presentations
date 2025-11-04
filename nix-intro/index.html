@@ -16,10 +16,21 @@
     }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -82,7 +93,6 @@
     code span.va { } /* Variable */
     code span.vs { color: #049b0a; } /* VerbatimString */
     code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="./reveal.js/dist/theme/night.css" id="theme">
 </head>
@@ -175,12 +185,12 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb7-1"><a href="#c
 <h3 id="standard-library">standard library</h3>
 <p>built into nix</p>
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode nix"><code class="sourceCode nix"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">builtins</span>.&lt;function&gt;</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">builtins</span>.toJSON</span></code></pre></div>
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">builtins</span><span class="op">.</span>&lt;function&gt;</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">builtins</span><span class="op">.</span>toJSON</span></code></pre></div>
 <p>nixos provided lib</p>
 <div class="sourceCode" id="cb9"><pre
-class="sourceCode nix"><code class="sourceCode nix"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nixpkgs.lib.&lt;function&gt;</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>nixpkgs.lib.mapAttrs</span></code></pre></div>
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nixpkgs<span class="op">.</span>lib<span class="op">.</span>&lt;function&gt;</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>nixpkgs<span class="op">.</span>lib<span class="op">.</span>mapAttrs</span></code></pre></div>
 </section>
 <section id="nix-the-package-manager" class="slide level2">
 <h2>Nix the package manager</h2>
@@ -250,10 +260,10 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb10-1"><a href="#
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> nixpkgs <span class="op">{};</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  pkgs.stdenv.mkDerivation <span class="op">{</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  pkgs<span class="op">.</span>stdenv<span class="op">.</span>mkDerivation <span class="op">{</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;my-loveley-cow&quot;</span><span class="op">;</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">phases</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;buildPhase&quot;</span><span class="op">];</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> pkgs.cowsay <span class="op">];</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> pkgs<span class="op">.</span>cowsay <span class="op">];</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">buildPhase</span> <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">      mkdir $out</span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">      cowsay &quot;Nix is awesome!&quot; &gt; $out/what.txt</span></span>
@@ -264,28 +274,28 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb10-1"><a href="#
 <col style="width: 5%" />
 </colgroup>
 <tbody>
-<tr class="odd">
+<tr>
 <td>## Builders</td>
 </tr>
-<tr class="even">
+<tr>
 <td>fetchurl</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>nixpkgs/pkgs/build-support/fetchurl/default.nix</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>Trivial builders</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>nixpkgs/pkgs/build-support/trivial-builders.nix</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>eg `writeTextFile``</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Other</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>pythonPackages.buildPythonPackage</code></td>
 </tr>
 </tbody>
@@ -333,7 +343,7 @@ environment</h3>
 class="sourceCode nix"><code class="sourceCode nix"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span> <span class="va">nixpkgs</span> <span class="op">?</span> &lt;nixpkgs&gt; <span class="op">}</span>:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> nixpkgs <span class="op">{};</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">haskellWithPackages</span> <span class="op">=</span> pkgs.haskellPackages.ghcWithPackages <span class="op">(</span><span class="va">pkgs</span><span class="op">:</span> <span class="kw">with</span> pkgs<span class="op">;</span> <span class="op">[</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">haskellWithPackages</span> <span class="op">=</span> pkgs<span class="op">.</span>haskellPackages<span class="op">.</span>ghcWithPackages <span class="op">(</span><span class="va">pkgs</span><span class="op">:</span> <span class="kw">with</span> pkgs<span class="op">;</span> <span class="op">[</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    array</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    vector</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    split</span>
@@ -343,7 +353,7 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb12-1"><a href="#
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    stylish-haskell</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">]);</span></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>pkgs.mkShell <span class="op">{</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span>haskellWithPackages<span class="op">];</span></span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">shellHook</span> <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
